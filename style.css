@@ -173,8 +173,8 @@
   .social-btn svg{width:20px;height:20px;position:relative;z-index:1}
 
   .social-btn.yt{background:rgba(255,0,0,0.15);border:1px solid rgba(255,0,0,0.3);animation:socialGlow1 3s ease-in-out infinite}
-  .social-btn.ig{background:rgba(228,64,95,0.15);border:1px solid rgba(228,64,95,0.3);animation:socialGlow2 3s ease-in-out infinite 0.5s}
-  .social-btn.fb{background:rgba(24,119,242,0.15);border:1px solid rgba(24,119,242,0.3);animation:socialGlow3 3s ease-in-out infinite 1s}
+  .social-btn.ig{background:rgba(228,64,95,0.15);border:1px solid rgba(228,64,95,0.3);animation:socialGlow2 3s ease-in-out infinite 1s}
+  .social-btn.fb{background:rgba(24,119,242,0.15);border:1px solid rgba(24,119,242,0.3);animation:socialGlow3 3s ease-in-out infinite 0.5s}
   .social-btn.tt{background:rgba(0,242,234,0.12);border:1px solid rgba(0,242,234,0.3);animation:socialGlow4 3s ease-in-out infinite 1.5s}
   .social-btn.tw{background:rgba(29,161,242,0.15);border:1px solid rgba(29,161,242,0.3);animation:socialGlow5 3s ease-in-out infinite 2s}
 
