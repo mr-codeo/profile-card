@@ -170,7 +170,7 @@
     transition:transform 0.2s;
   }
   .social-btn:hover{transform:translateY(-3px)}
-  .social-btn svg{width:20px;height:20px; color:white; position:relative;z-index:1}
+  .social-btn svg{width:20px;height:20px;position:relative;z-index:1}
 
   .social-btn.yt{background:rgba(255,0,0,0.15);border:1px solid rgba(255,0,0,0.3);animation:socialGlow1 3s ease-in-out infinite}
   .social-btn.ig{background:rgba(228,64,95,0.15);border:1px solid rgba(228,64,95,0.3);animation:socialGlow2 3s ease-in-out infinite 0.5s}
