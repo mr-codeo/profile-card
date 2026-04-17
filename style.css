@@ -30,12 +30,13 @@
 
   .card{
     position:relative;z-index:10;
+    margin:auto;
     width:90%;
-    max-with:400px;
+    max-with:420px;
     background:rgba(255,255,255,0.04);
     border:1px solid rgba(255,255,255,0.1);
     border-radius:28px;
-    padding:40px 32px 36px;
+    padding:35px 25px;
     text-align:center;
     backdrop-filter:blur(24px);
     -webkit-backdrop-filter:blur(24px);
