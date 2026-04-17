@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Md Ismail Jabi Ullah — Video Editor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    background:#0a0a0f;
+    font-family:'Inter',sans-serif;
+    overflow:hidden;
+    position:relative;
+  }
+
+  canvas#bg{
+    position:fixed;inset:0;z-index:0;
+  }
+
+  .aurora{
+    position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 30%, rgba(120,40,200,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 70%, rgba(40,100,255,0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 50% 50%, rgba(0,180,140,0.08) 0%, transparent 70%);
+    animation:auroraShift 8s ease-in-out infinite alternate;
+  }
+  @keyframes auroraShift{
+    0%{transform:scale(1) rotate(0deg)}
+    100%{transform:scale(1.05) rotate(2deg)}
+  }
+
+  .card{
+    position:relative;z-index:10;
+    width:360px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:28px;
+    padding:40px 32px 36px;
+    text-align:center;
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+    box-shadow:0 32px 80px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.12);
+    animation:cardIn 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes cardIn{
+    from{opacity:0;transform:translateY(40px) scale(0.9)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+  }
+
+  .card::before{
+    content:'';
+    position:absolute;inset:-1px;
+    border-radius:29px;
+    background:linear-gradient(135deg,rgba(120,40,200,0.3),rgba(40,100,255,0.2),rgba(0,180,140,0.15),transparent 60%);
+    z-index:-1;
+  }
+
+  .avatar-wrap{
+    position:relative;
+    width:96px;height:96px;
+    margin:0 auto 20px;
+  }
+  .avatar-ring{
+    position:absolute;inset:-4px;
+    border-radius:50%;
+    background:conic-gradient(from 0deg,#7828c8,#1e62ff,#00b48c,#7828c8);
+    animation:spin 3s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .avatar-inner{
+    position:absolute;inset:3px;
+    border-radius:50%;
+    background:#1a1a2e;
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .avatar-letters{
+    font-size:28px;font-weight:700;
+    background:linear-gradient(135deg,#a855f7,#6366f1);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    font-family:'Space Grotesk',sans-serif;
+    letter-spacing:-1px;
+  }
+
+  .status-dot{
+    position:absolute;bottom:4px;right:4px;
+    width:14px;height:14px;
+    background:#22c55e;
+    border-radius:50%;
+    border:2px solid #0a0a0f;
+    animation:pulse 2s ease-in-out infinite;
+    z-index:5;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)}
+    50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}
+  }
+
+  .name{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:22px;font-weight:700;
+    color:#fff;
+    letter-spacing:-0.5px;
+    margin-bottom:6px;
+  }
+
+  .title-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(120,40,200,0.2);
+    border:1px solid rgba(120,40,200,0.4);
+    border-radius:20px;
+    padding:5px 14px;
+    font-size:12px;font-weight:500;
+    color:#c084fc;
+    margin-bottom:18px;
+    letter-spacing:0.5px;
+  }
+  .title-badge .dot{
+    width:6px;height:6px;
+    border-radius:50%;
+    background:#a855f7;
+    animation:blink 1.5s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+  .bio{
+    font-size:13.5px;
+    color:rgba(255,255,255,0.5);
+    line-height:1.6;
+    margin-bottom:22px;
+    padding:0 4px;
+  }
+
+  .stats{
+    display:flex;justify-content:center;gap:0;
+    margin-bottom:24px;
+    border:1px solid rgba(255,255,255,0.07);
+    border-radius:14px;
+    overflow:hidden;
+    background:rgba(255,255,255,0.03);
+  }
+  .stat{
+    flex:1;padding:12px 8px;
+    border-right:1px solid rgba(255,255,255,0.07);
+  }
+  .stat:last-child{border-right:none}
+  .stat-num{
+    font-size:16px;font-weight:700;
+    color:#fff;font-family:'Space Grotesk',sans-serif;
+  }
+  .stat-label{
+    font-size:10px;
+    color:rgba(255,255,255,0.35);
+    text-transform:uppercase;letter-spacing:0.8px;
+    margin-top:2px;
+  }
+
+  .socials{
+    display:flex;justify-content:center;gap:12px;
+    margin-bottom:24px;
+  }
+  .social-btn{
+    width:44px;height:44px;
+    border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    text-decoration:none;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.2s;
+  }
+  .social-btn:hover{transform:translateY(-3px)}
+  .social-btn svg{width:20px;height:20px;position:relative;z-index:1}
+
+  .social-btn.yt{background:rgba(255,0,0,0.15);border:1px solid rgba(255,0,0,0.3);animation:socialGlow1 3s ease-in-out infinite}
+  .social-btn.ig{background:rgba(228,64,95,0.15);border:1px solid rgba(228,64,95,0.3);animation:socialGlow2 3s ease-in-out infinite 0.5s}
+  .social-btn.fb{background:rgba(24,119,242,0.15);border:1px solid rgba(24,119,242,0.3);animation:socialGlow3 3s ease-in-out infinite 1s}
+  .social-btn.tt{background:rgba(0,242,234,0.12);border:1px solid rgba(0,242,234,0.3);animation:socialGlow4 3s ease-in-out infinite 1.5s}
+  .social-btn.tw{background:rgba(29,161,242,0.15);border:1px solid rgba(29,161,242,0.3);animation:socialGlow5 3s ease-in-out infinite 2s}
+
+  @keyframes socialGlow1{0%,100%{box-shadow:0 0 0 rgba(255,0,0,0)}50%{box-shadow:0 0 16px rgba(255,0,0,0.4)}}
+  @keyframes socialGlow2{0%,100%{box-shadow:0 0 0 rgba(228,64,95,0)}50%{box-shadow:0 0 16px rgba(228,64,95,0.4)}}
+  @keyframes socialGlow3{0%,100%{box-shadow:0 0 0 rgba(24,119,242,0)}50%{box-shadow:0 0 16px rgba(24,119,242,0.4)}}
+  @keyframes socialGlow4{0%,100%{box-shadow:0 0 0 rgba(0,242,234,0)}50%{box-shadow:0 0 16px rgba(0,242,234,0.4)}}
+  @keyframes socialGlow5{0%,100%{box-shadow:0 0 0 rgba(29,161,242,0)}50%{box-shadow:0 0 16px rgba(29,161,242,0.4)}}
+
+  .social-btn.yt svg{fill:#ff4444}
+  .social-btn.ig svg{fill:url(#igGrad)}
+  .social-btn.fb svg{fill:#1877f2}
+  .social-btn.tt svg{fill:#00f2ea}
+  .social-btn.tw svg{fill:#1da1f2}
+
+  .cta{
+    width:100%;
+    padding:13px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#7828c8,#1e62ff);
+    border:none;
+    color:#fff;
+    font-size:14px;font-weight:600;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+    letter-spacing:0.3px;
+    transition:all 0.3s;
+    position:relative;overflow:hidden;
+  }
+  .cta::after{
+    content:'';
+    position:absolute;top:-50%;left:-50%;
+    width:200%;height:200%;
+    background:linear-gradient(transparent,rgba(255,255,255,0.1),transparent);
+    transform:rotate(45deg) translateX(-100%);
+    transition:transform 0.5s;
+  }
+  .cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(120,40,200,0.5)}
+  .cta:hover::after{transform:rotate(45deg) translateX(100%)}
+
+  .footer{
+    margin-top:20px;
+    font-size:11px;
+    color:rgba(255,255,255,0.2);
+    letter-spacing:0.5px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<div class="aurora"></div>
+
+<div class="card">
+  <div class="avatar-wrap">
+    <div class="avatar-ring"></div>
+    <div class="avatar-inner">
+      <span class="avatar-letters">IJ</span>
+    </div>
+    <div class="status-dot"></div>
+  </div>
+
+  <div class="name">Md Ismail Jabi Ullah</div>
+
+  <div class="title-badge">
+    <span class="dot"></span>
+    Video Editor
+  </div>
+
+  <p class="bio">Crafting cinematic stories through the art of editing. Turning raw footage into visual masterpieces that captivate and inspire.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">150+</div>
+      <div class="stat-label">Projects</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">5yr</div>
+      <div class="stat-label">Exp.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Happy</div>
+    </div>
+  </div>
+
+  <div class="socials">
+    <svg style="display:none">
+      <defs>
+        <linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f09433"/>
+          <stop offset="25%" stop-color="#e6683c"/>
+          <stop offset="50%" stop-color="#dc2743"/>
+          <stop offset="75%" stop-color="#cc2366"/>
+          <stop offset="100%" stop-color="#bc1888"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <a href="#" class="social-btn yt" title="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+    </a>
+    <a href="#" class="social-btn ig" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="#" class="social-btn fb" title="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+    <a href="#" class="social-btn tt" title="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+    <a href="#" class="social-btn tw" title="Twitter / X">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+  </div>
+
+  <button class="cta" onclick="window.open('mailto:ismail@example.com')">✉ Hire Me for a Project</button>
+
+  <div class="footer">© 2025 Md Ismail Jabi Ullah</div>
+</div>
+
+<script>
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+class Particle{
+  constructor(){this.reset()}
+  reset(){
+    this.x = Math.random()*W;
+    this.y = Math.random()*H;
+    this.r = Math.random()*1.8+0.4;
+    this.vx = (Math.random()-0.5)*0.3;
+    this.vy = (Math.random()-0.5)*0.3;
+    this.alpha = Math.random()*0.6+0.1;
+    this.color = ['#a855f7','#6366f1','#22d3ee','#818cf8'][Math.floor(Math.random()*4)];
+  }
+  update(){
+    this.x+=this.vx; this.y+=this.vy;
+    if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset();
+  }
+  draw(){
+    ctx.save();
+    ctx.globalAlpha=this.alpha;
+    ctx.fillStyle=this.color;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function init(){
+  particles=[];
+  for(let i=0;i<160;i++) particles.push(new Particle());
+}
+
+function animate(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{p.update();p.draw()});
+  // Draw connecting lines
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<100){
+        ctx.save();
+        ctx.globalAlpha=(1-dist/100)*0.12;
+        ctx.strokeStyle='#a855f7';
+        ctx.lineWidth=0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize',()=>{resize();init()});
+resize(); init(); animate();
+</script>
+</body>
+</html>
