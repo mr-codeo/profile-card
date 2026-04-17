@@ -30,7 +30,8 @@
 
   .card{
     position:relative;z-index:10;
-    width:360px;
+    width:90%;
+    max-with:400px;
     background:rgba(255,255,255,0.04);
     border:1px solid rgba(255,255,255,0.1);
     border-radius:28px;
