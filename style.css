@@ -29,19 +29,18 @@
   }
 
   .card{
-    position:relative;z-index:10;
-    margin:auto;
-    width:90%;
-    max-with:420px;
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.1);
-    border-radius:28px;
-    padding:35px 25px;
-    text-align:center;
-    backdrop-filter:blur(24px);
-    -webkit-backdrop-filter:blur(24px);
-    box-shadow:0 32px 80px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.12);
-    animation:cardIn 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+    position: relative;
+    height: auto;
+    width: 360px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    padding: 40px 32px 36px;
+    text-align: center;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    animation: cardIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
   @keyframes cardIn{
     from{opacity:0;transform:translateY(40px) scale(0.9)}
